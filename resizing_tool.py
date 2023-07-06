@@ -42,17 +42,15 @@ if __name__ == '__main__':
             print("Target dir = " + target_dir)
             print("Target size = " + str(target_size))
             
-            button_go.place(relx=0.45, rely=1.2)
-            pb.place(relx=0.22, rely=0.8)
+            #button_go.place(relx=0.45, rely=1.2)
+            #pb.place(relx=0.22, rely=0.8)
             
-            pb.start()
+            #pb.start()
 
             sub_arr1, sub_arr2, sub_arr3, sub_arr4 = img_resizer.split(source_dir)
             
 
             # start processes:
-            
-
             pipe1_1, pipe1_2 = multiprocessing.Pipe()
             pipe2_1, pipe2_2 = multiprocessing.Pipe()
             pipe3_1, pipe3_2 = multiprocessing.Pipe()
@@ -74,12 +72,12 @@ if __name__ == '__main__':
             pipe3_1.recv()
             pipe4_1.recv()
 
-            pb.stop()
 
-            window.destroy()
+            #pb.stop()
 
             messagebox.showinfo('Done', 'All files in target directory processed!')
 
+            window.destroy()
 
     l1 = tk.Label(window, text="Source directory: ")
     button_source_dir = tk.Button(window, text='Open', width=55, command=lambda: UploadAction(0))
