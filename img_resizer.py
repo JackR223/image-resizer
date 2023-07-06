@@ -5,12 +5,17 @@ import PIL.ImageOps as ImageOps
 import cv2
 import numpy
 
-def compress(source_dir, target_dir, target_size):
+import multiprocessing
+import math
+
+
+
+def compress(arr, source_dir, target_dir, target_size, pipe):
 
     # COULD USE TWO SEPARATE MODES, ONE TO TRIM TO FIXED DIMENSIONS + ONE TO TRIM TO FIXED FILE SIZE
 
     # iterate over files in source_dir
-    for filename in os.listdir(source_dir):
+    for filename in arr:
 
         print("resizing: " + filename)
 
@@ -47,3 +52,35 @@ def compress(source_dir, target_dir, target_size):
             elif size > target_size:
                 # decrease resolution:
                 res = res/2
+
+    pipe.send("Finished!")
+
+
+# generates and returns 4 arrays of files from source directory
+def split(source_dir):
+
+    sub_arr1 = []
+    sub_arr2 = []
+    sub_arr3 = []
+    sub_arr4 = []
+
+    files = os.listdir(source_dir)
+    non_remainder = math.floor(len(files)/4)*4
+    
+    for i in range(0, non_remainder, 4):
+        sub_arr1.append(files[i])
+        sub_arr2.append(files[i+1])
+        sub_arr3.append(files[i+2])
+        sub_arr4.append(files[i+3])
+    for i in range(non_remainder, len(files)):
+        sub_arr1.append(files[i])
+
+    #print(sub_arr1)
+    #print("")
+    #print(sub_arr2)
+    #print("")
+    #print(sub_arr3)
+    #print("")
+    #print(sub_arr4)
+
+    return(sub_arr1, sub_arr2, sub_arr3, sub_arr4)

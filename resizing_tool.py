@@ -3,6 +3,8 @@ from tkinter import filedialog
 from tkinter import messagebox
 from tkinter import ttk
 
+import multiprocessing
+
 import img_resizer
 
 
@@ -41,15 +43,41 @@ def Run(size):
         
         button_go.place(relx=0.45, rely=1.2)
         pb.place(relx=0.22, rely=0.8)
+        
         pb.start()
 
-        img_resizer.compress(source_dir, target_dir, target_size)
+        sub_arr1, sub_arr2, sub_arr3, sub_arr4 = img_resizer.split(source_dir)
+        
+
+        # start processes:
+        if __name__ == '__main__':
+
+            pipe1_1, pipe1_2 = multiprocessing.Pipe()
+            pipe2_1, pipe2_2 = multiprocessing.Pipe()
+            pipe3_1, pipe3_2 = multiprocessing.Pipe()
+            pipe4_1, pipe4_2 = multiprocessing.Pipe()
+
+            p1 = multiprocessing.Process(target=img_resizer.compress, args=(sub_arr1, source_dir, target_dir, target_size, pipe1_2,))
+            p2 = multiprocessing.Process(target=img_resizer.compress, args=(sub_arr2, source_dir, target_dir, target_size, pipe2_2,))
+            p3 = multiprocessing.Process(target=img_resizer.compress, args=(sub_arr3, source_dir, target_dir, target_size, pipe3_2,))
+            p4 = multiprocessing.Process(target=img_resizer.compress, args=(sub_arr4, source_dir, target_dir, target_size, pipe4_2,))
+
+            p1.start()
+            p2.start()
+            p3.start()
+            p4.start()
+
+            # wait for processes to finish
+            pipe1_1.recv()
+            pipe2_1.recv()
+            pipe3_1.recv()
+            pipe4_1.recv()
 
         pb.stop()
 
-        messagebox.showinfo('Done', 'All files in target directory processed!')
-
         window.destroy()
+
+        messagebox.showinfo('Done', 'All files in target directory processed!')
 
 
 l1 = tk.Label(window, text="Source directory: ")
