@@ -4,8 +4,6 @@ import PIL
 import PIL.ImageOps as ImageOps
 import cv2
 import numpy
-
-import multiprocessing
 import math
 
 

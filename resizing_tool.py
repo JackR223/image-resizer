@@ -4,7 +4,6 @@ from tkinter import messagebox
 from tkinter import ttk
 
 import multiprocessing
-
 import img_resizer
 
 if __name__ == '__main__':
