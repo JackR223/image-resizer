@@ -8,6 +8,8 @@ import img_resizer
 
 if __name__ == '__main__':
 
+    multiprocessing.freeze_support()
+
     source_dir = ""
     target_dir = ""
     target_size = 250
