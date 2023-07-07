@@ -93,7 +93,7 @@ if __name__ == '__main__':
     size.set(250)
 
     global button_go
-    button_go = tk.Button(window, text='compress', background='greenyellow', command=lambda: Run(size.get()))
+    button_go = tk.Button(window, text='resize', background='greenyellow', command=lambda: Run(size.get()))
 
     global pb
     pb = ttk.Progressbar(window, orient='horizontal', mode='indeterminate', length=280)
