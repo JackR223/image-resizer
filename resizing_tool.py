@@ -17,6 +17,7 @@ if __name__ == '__main__':
 
     window = tk.Tk()
     window.geometry("500x250")
+    window.configure(bg='#5da534')
 
 
     def UploadAction(s_t):
@@ -80,20 +81,20 @@ if __name__ == '__main__':
 
             window.destroy()
 
-    l1 = tk.Label(window, text="Source directory: ")
-    button_source_dir = tk.Button(window, text='Open', width=55, command=lambda: UploadAction(0))
+    l1 = tk.Label(window, bg='#5da534', text="Source directory: ")
+    button_source_dir = tk.Button(window, bg='#afb0ae', text='Open', width=55, command=lambda: UploadAction(0))
 
-    l2 = tk.Label(window, text="Target directory: ")
+    l2 = tk.Label(window, bg='#5da534', text="Target directory: ")
 
-    button_target_dir = tk.Button(window, text='Open', width=55, command=lambda: UploadAction(1))
+    button_target_dir = tk.Button(window, bg='#afb0ae', text='Open', width=55, command=lambda: UploadAction(1))
 
-    l3 = tk.Label(window, text="File size (kb): ")
+    l3 = tk.Label(window, bg='#5da534', text="File size (kb): ")
 
-    size = tk.Scale(window, from_=1, to=1000, length=390, orient='horizontal')
+    size = tk.Scale(window, bg='#afb0ae', from_=1, to=1000, length=390, orient='horizontal')
     size.set(250)
 
     global button_go
-    button_go = tk.Button(window, text='resize', background='greenyellow', command=lambda: Run(size.get()))
+    button_go = tk.Button(window, text='resize', background='#afb0ae', command=lambda: Run(size.get()))
 
     global pb
     pb = ttk.Progressbar(window, orient='horizontal', mode='indeterminate', length=280)
