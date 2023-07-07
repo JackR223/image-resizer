@@ -2,3 +2,4 @@ targets/*
 resized/*
 build/*
 dist/*
+test.py
