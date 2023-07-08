@@ -6,51 +6,86 @@ import cv2
 import numpy
 import math
 
+import threading
+
+from io import BytesIO
 
 
 def compress(arr, source_dir, target_dir, target_size, pipe):
 
     # COULD USE TWO SEPARATE MODES, ONE TO TRIM TO FIXED DIMENSIONS + ONE TO TRIM TO FIXED FILE SIZE
 
-    # iterate over files in source_dir
-    for filename in arr:
+    sub_arr1, sub_arr2, sub_arr3, sub_arr4 = [], [], [], []
 
-        print("resizing: " + filename)
+    non_remainder = math.floor(len(arr)/2)*2
 
-        image_in = PIL.Image.open(source_dir + "/" + filename)
-        h,w = image_in.size
+    for i in range(0, non_remainder, 2):
+        sub_arr1.append(arr[i])
+        sub_arr2.append(arr[i+1])
+        #sub_arr3.append(arr[i+2])
+        #sub_arr4.append(arr[i+3])
+    for i in range(non_remainder, len(arr)):
+        sub_arr1.append(arr[i])
 
-        res = max(h, w) / 2  
+    #print(arr)
+    #print("")
+    #print(sub_arr1)
 
-        while True:
+    def compress_2(arr, source_dir, target_dir, target_size):
 
-            res = int(res)
+        # iterate over files in source_dir
+        for filename in arr:
 
-            image_out = ImageOps.contain(image_in, (res, res))
+            print("resizing: " + filename)
 
-            image_out = cv2.cvtColor(numpy.array(image_out), cv2.COLOR_RGB2BGR)
-            #f = os.path.join('resized', filename)
-            f = target_dir + "/" + filename
-            print(f)
+            image_in = PIL.Image.open(source_dir + "/" + filename)
+            h,w = image_in.size
 
-            x = open(f, 'a')
-            x.close()
-        
-            cv2.imwrite(f, image_out)
+            res = max(h, w) / 2  
 
-            size = (os.stat(f).st_size)/1000
-            size = size
+            while True:
 
-            if size >= target_size*0.9 and size <= target_size:
-                # resolution is close enough to target
-                break
-            elif size < target_size:
-                # increase resolution:
-                res = res + (res/2)
-            elif size > target_size:
-                # decrease resolution:
-                res = res/2
+                res = int(res)
 
+                image_out = ImageOps.contain(image_in, (res, res))
+
+                f = target_dir + "/" + filename
+
+                fake_file = BytesIO()
+
+                image_out.save(fake_file, 'jpeg')
+
+                size = (fake_file.getbuffer().nbytes)/1000
+
+                if size >= target_size*0.9 and size <= target_size:
+                    # resolution is close enough to target
+                    print(f)
+                    with open(f, "wb") as outfile:
+                        # Copy the BytesIO stream to the output file
+                        outfile.write(fake_file.getbuffer())
+                    break
+                elif size < target_size:
+                    # increase resolution:
+                    res = res + (res/2)
+                elif size > target_size:
+                    # decrease resolution:
+                    res = res/2
+
+    t1 = threading.Thread(target=compress_2, args=(sub_arr1, source_dir, target_dir, target_size))
+    t2 = threading.Thread(target=compress_2, args=(sub_arr2, source_dir, target_dir, target_size))
+    #t3 = threading.Thread(target=compress_2, args=(sub_arr3, source_dir, target_dir, target_size))
+    #t4 = threading.Thread(target=compress_2, args=(sub_arr4, source_dir, target_dir, target_size))
+
+    t1.start()
+    t2.start()
+    #t3.start()
+    #t4.start()
+
+    t1.join()
+    t2.join()
+    #t3.join()
+    #t4.join()
+    
     pipe.send("Finished!")
 
 
