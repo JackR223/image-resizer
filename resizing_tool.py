@@ -6,6 +6,8 @@ from tkinter import ttk
 import multiprocessing
 import img_resizer
 
+import webbrowser
+
 if __name__ == '__main__':
 
     multiprocessing.freeze_support()
@@ -19,6 +21,8 @@ if __name__ == '__main__':
     window.geometry("500x250")
     window.configure(bg='#5da534')
 
+    def openUrl(url):
+        webbrowser.open_new(url)
 
     def UploadAction(s_t):
         directory = filedialog.askdirectory()
@@ -99,7 +103,8 @@ if __name__ == '__main__':
     global pb
     pb = ttk.Progressbar(window, orient='horizontal', mode='indeterminate', length=280)
 
-
+    l4 = tk.Label(window, bg='#5da543', text="https://github.com/JackR223/image-resizer.git", cursor="hand2")
+    l4.bind("<Button-1>", lambda e: openUrl("https://github.com/JackR223/image-resizer.git"))
 
     l1.place(relx=0, rely=0.05)
     button_source_dir.place(relx=0.2, rely=0.05)
@@ -113,5 +118,7 @@ if __name__ == '__main__':
     button_go.place(relx=0.45, rely=0.8)
 
     pb.place(relx=0.22, rely=1.2)
+
+    l4.place(relx=0, rely=0.92)
 
     window.mainloop()
