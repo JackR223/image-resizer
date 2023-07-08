@@ -101,15 +101,14 @@ if __name__ == '__main__':
 
 
 
-    l1.place(relx=0, rely=0)
-    #l1.pack()
-    button_source_dir.place(relx=0.2, rely=0)
+    l1.place(relx=0, rely=0.05)
+    button_source_dir.place(relx=0.2, rely=0.05)
 
-    l2.place(relx=0, rely=0.2)
-    button_target_dir.place(relx=0.2, rely=0.2)
+    l2.place(relx=0, rely=0.25)
+    button_target_dir.place(relx=0.2, rely=0.25)
 
-    l3.place(relx=0, rely=0.4)
-    size.place(relx=0.2, rely=0.33)
+    l3.place(relx=0, rely=0.45)
+    size.place(relx=0.2, rely=0.45)
 
     button_go.place(relx=0.45, rely=0.8)
 
