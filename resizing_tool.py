@@ -38,9 +38,15 @@ if __name__ == '__main__':
 
     def Run(size):
 
+        res = 'yes'
+
         if source_dir == "" or target_dir == "":
-            messagebox.showerror('Python Error', 'Error: Invalid source or target directory!')
-        else:
+            messagebox.showerror('Python Error!', 'Error: Invalid source or target directory!')  
+        if source_dir == target_dir:
+            res = messagebox.askyesno('Warning!', 'Source and target directories are the same, the source directory will be overwritten. Do you want to continue?')
+
+        if res == 'yes':
+
             global target_size
             target_size = size
 
