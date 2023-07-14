@@ -20,6 +20,7 @@ if __name__ == '__main__':
     window = tk.Tk()
     window.geometry("500x250")
     window.configure(bg='#5da534')
+    window.title("Oxfam Resizing Tool")
 
     def openUrl(url):
         webbrowser.open_new(url)
