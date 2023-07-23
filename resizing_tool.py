@@ -8,6 +8,9 @@ import img_resizer
 
 import webbrowser
 
+import os
+import zipfile
+
 if __name__ == '__main__':
 
     multiprocessing.freeze_support()
@@ -90,10 +93,15 @@ if __name__ == '__main__':
 
             messagebox.showinfo('Done', 'All files in target directory processed!')
 
-            if do_zip.get() == 0:
-                print("Files won't be zipped")
-            else:
-                print("Files will be zipped. Zipping files...")
+            if do_zip.get() != 0:
+                print("Zipping files...")
+                zipper = zipfile.ZipFile("images.zip", "w")
+                for dirname, _, files in os.walk(target_dir):
+                    zipper.write(dirname)
+                    for filename in files:
+                        print(filename)
+                        zipper.write(os.path.join(dirname, filename))
+                zipper.close()
 
             window.destroy()
 
