@@ -90,6 +90,11 @@ if __name__ == '__main__':
 
             messagebox.showinfo('Done', 'All files in target directory processed!')
 
+            if do_zip.get() == 0:
+                print("Files won't be zipped")
+            else:
+                print("Files will be zipped. Zipping files...")
+
             window.destroy()
 
     l1 = tk.Label(window, bg='#5da534', text="Source directory: ")
@@ -113,7 +118,8 @@ if __name__ == '__main__':
     l4 = tk.Label(window, bg='#5da543', text="https://github.com/JackR223/image-resizer.git", cursor="hand2")
     l4.bind("<Button-1>", lambda e: openUrl("https://github.com/JackR223/image-resizer.git"))
 
-    zip_check = tk.Checkbutton(window, bg='#5da543', text='Zip target directory after completion?',onvalue=1, offvalue=0)
+    do_zip = tk.IntVar()
+    zip_check = tk.Checkbutton(window, bg='#5da543', text='Zip target directory after completion?', onvalue=1, offvalue=0, var=do_zip)
 
 
     l1.place(relx=0, rely=0.05)
