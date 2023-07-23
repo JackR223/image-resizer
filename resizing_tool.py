@@ -94,9 +94,18 @@ if __name__ == '__main__':
             messagebox.showinfo('Done', 'All files in target directory processed!')
 
             if do_zip.get() != 0:
+
+                cwd = os.getcwd()
+
+                if len(cwd) != len(target_dir):
+                    zip_dir = target_dir[len(cwd)+1:len(target_dir)]
+                else:
+                    zip_dir = target_dir
+
                 print("Zipping files...")
+
                 zipper = zipfile.ZipFile("images.zip", "w")
-                for dirname, _, files in os.walk(target_dir):
+                for dirname, _, files in os.walk(zip_dir):
                     zipper.write(dirname)
                     for filename in files:
                         print(filename)
