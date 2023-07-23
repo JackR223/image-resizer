@@ -113,6 +113,9 @@ if __name__ == '__main__':
     l4 = tk.Label(window, bg='#5da543', text="https://github.com/JackR223/image-resizer.git", cursor="hand2")
     l4.bind("<Button-1>", lambda e: openUrl("https://github.com/JackR223/image-resizer.git"))
 
+    zip_check = tk.Checkbutton(window, bg='#5da543', text='Zip target directory after completion?',onvalue=1, offvalue=0)
+
+
     l1.place(relx=0, rely=0.05)
     button_source_dir.place(relx=0.2, rely=0.05)
 
@@ -127,5 +130,7 @@ if __name__ == '__main__':
     pb.place(relx=0.22, rely=1.2)
 
     l4.place(relx=0, rely=0.92)
+
+    zip_check.place(relx=0, rely=0.65)
 
     window.mainloop()
