@@ -13,8 +13,6 @@ from io import BytesIO
 
 def compress(arr, source_dir, target_dir, target_size, pipe):
 
-    # COULD USE TWO SEPARATE MODES, ONE TO TRIM TO FIXED DIMENSIONS + ONE TO TRIM TO FIXED FILE SIZE
-
     sub_arr1, sub_arr2, sub_arr3, sub_arr4 = [], [], [], []
 
     non_remainder = math.floor(len(arr)/2)*2
@@ -22,14 +20,8 @@ def compress(arr, source_dir, target_dir, target_size, pipe):
     for i in range(0, non_remainder, 2):
         sub_arr1.append(arr[i])
         sub_arr2.append(arr[i+1])
-        #sub_arr3.append(arr[i+2])
-        #sub_arr4.append(arr[i+3])
     for i in range(non_remainder, len(arr)):
         sub_arr1.append(arr[i])
-
-    #print(arr)
-    #print("")
-    #print(sub_arr1)
 
     def compress_2(arr, source_dir, target_dir, target_size):
 
@@ -73,18 +65,12 @@ def compress(arr, source_dir, target_dir, target_size, pipe):
 
     t1 = threading.Thread(target=compress_2, args=(sub_arr1, source_dir, target_dir, target_size))
     t2 = threading.Thread(target=compress_2, args=(sub_arr2, source_dir, target_dir, target_size))
-    #t3 = threading.Thread(target=compress_2, args=(sub_arr3, source_dir, target_dir, target_size))
-    #t4 = threading.Thread(target=compress_2, args=(sub_arr4, source_dir, target_dir, target_size))
 
     t1.start()
     t2.start()
-    #t3.start()
-    #t4.start()
 
     t1.join()
     t2.join()
-    #t3.join()
-    #t4.join()
     
     pipe.send("Finished!")
 
@@ -108,12 +94,5 @@ def split(source_dir):
     for i in range(non_remainder, len(files)):
         sub_arr1.append(files[i])
 
-    #print(sub_arr1)
-    #print("")
-    #print(sub_arr2)
-    #print("")
-    #print(sub_arr3)
-    #print("")
-    #print(sub_arr4)
 
     return(sub_arr1, sub_arr2, sub_arr3, sub_arr4)
