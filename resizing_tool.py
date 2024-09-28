@@ -58,10 +58,6 @@ if __name__ == '__main__':
             print("Target dir = " + target_dir)
             print("Target size = " + str(target_size))
             
-            #button_go.place(relx=0.45, rely=1.2)
-            #pb.place(relx=0.22, rely=0.8)
-            
-            #pb.start()
 
             sub_arr1, sub_arr2, sub_arr3, sub_arr4 = img_resizer.split(source_dir)
             
@@ -88,8 +84,6 @@ if __name__ == '__main__':
             pipe3_1.recv()
             pipe4_1.recv()
 
-
-            #pb.stop()
 
             messagebox.showinfo('Done', 'All files in target directory processed!')
 
